@@ -157,7 +157,7 @@ pub(crate) unsafe fn bytes_of<T>(val: &T) -> &[u8] {
 }
 
 const MIN_LOG_BUF_SIZE: usize = 1024 * 10;
-const MAX_LOG_BUF_SIZE: usize = (std::u32::MAX >> 6) as usize;
+const MAX_LOG_BUF_SIZE: usize = (std::u32::MAX >> 5) as usize;
 
 pub(crate) struct VerifierLog {
     buf: Vec<u8>,
@@ -175,7 +175,7 @@ impl VerifierLog {
     pub(crate) fn grow(&mut self) {
         let len = cmp::max(
             MIN_LOG_BUF_SIZE,
-            cmp::min(MAX_LOG_BUF_SIZE, self.buf.capacity() * 100),
+            cmp::min(MAX_LOG_BUF_SIZE, self.buf.capacity() * 1024),
         );
         self.buf.resize(len, 0);
         self.reset();
